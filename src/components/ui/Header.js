@@ -107,7 +107,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.common.orange
   },
   drawerItemSelected: {
-    opacity: 1
+    "& .MuiListItemText-root": {
+      opacity: 1
+    }
   },
   appBar: {
     zIndex: theme.zIndex.modal + 1
@@ -221,11 +223,12 @@ export default function Header(props) {
         classes={{paper: classes.menu}}
         MenuListProps={{onMouseLeave: handleClose}}
         elevation={0}
+        style={{zIndex: 1302}}
         keepMounted
       >
         {menuOptions.map((option, i) => (
           <MenuItem
-            key={i}
+            key={`${option}${i}`}
             component={Link} 
             to={option.link}
             classes={{root: classes.menuItem}}
@@ -265,15 +268,12 @@ export default function Header(props) {
               component={Link}
               to={route.link}
               selected={value === route.activeIndex}
+              classes={{selected: classes.drawerItemSelected}}
             >
               <ListItemText 
-              className={
-                value === route.activeIndex ? 
-                [classes.drawerItem, classes.drawerItemSelected] : 
-                classes.drawerItem
-              }
-                  disableTypography
-                >
+                className={classes.drawerItem}
+                disableTypography
+              >
                 {route.name}
               </ListItemText>
             </ListItem>
@@ -288,15 +288,11 @@ export default function Header(props) {
             component={Link} 
             to="/estimate"
             selected={value === 5}
-            className={classes.drawerItemEstimate} 
+            classes={{root: classes.drawerItemEstimate, selected: classes.drawerItemSelected }} 
           >
             <ListItemText 
               disableTypography 
-              className={
-                value === 5 ? 
-                [classes.drawerItem, classes.drawerItemSelected] : 
-                classes.drawerItem
-              }
+              className={classes.drawerItem}
             >
               Free Estimate
             </ListItemText>

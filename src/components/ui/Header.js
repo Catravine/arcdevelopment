@@ -108,6 +108,9 @@ const useStyles = makeStyles(theme => ({
   },
   drawerItemSelected: {
     opacity: 1
+  },
+  appBar: {
+    zIndex: theme.zIndex.modal + 1
   }
 }));
 
@@ -248,6 +251,7 @@ export default function Header(props) {
         onOpen={() => setOpenDrawer(true)}
         classes={{paper: classes.drawer}}
       >
+        <div className={classes.toolbarMargin} />
         <List disablePadding>
           {routes.map((route, index) => (
             <ListItem 
@@ -312,7 +316,7 @@ export default function Header(props) {
   return (
     <React.Fragment>
       <ElevationScroll>
-        <AppBar>
+        <AppBar className={classes.appBar}>
           <Toolbar disableGutters>
             <Button 
               component={Link} to="/" 

@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import theme from './ui/Theme';
 import Header from '../components/ui/Header';
 import Footer from '../components/ui/Footer';
+import LandingPage from './LandingPage';
 
 function App() {
 
@@ -21,7 +22,7 @@ function App() {
           setSelectedIndex={setSelectedIndex} 
         />
         <Routes>
-          <Route exact path="/" element={<div>Home</div>} />
+          <Route exact path="/" element={<LandingPage />} />
           <Route exact path="/services" element={<div>Services</div>} />
           <Route exact path="/customsoftware" element={<div>Custom Software</div>} />
           <Route exact path="/mobileapps" element={<div>Mobile Apps</div>} />

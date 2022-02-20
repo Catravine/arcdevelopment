@@ -22,7 +22,9 @@ function App() {
           setSelectedIndex={setSelectedIndex} 
         />
         <Routes>
-          <Route exact path="/" element={<LandingPage />} />
+          <Route exact path="/" element={
+            <LandingPage setValue={setValue} setSelectedIndex={setSelectedIndex} />} 
+          />
           <Route exact path="/services" element={<div>Services</div>} />
           <Route exact path="/customsoftware" element={<div>Custom Software</div>} />
           <Route exact path="/mobileapps" element={<div>Mobile Apps</div>} />
@@ -33,9 +35,7 @@ function App() {
           <Route exact path="/estimate" element={<div>Free Estimate</div>} />
         </Routes>
         <Footer 
-          value={value} 
           setValue={setValue} 
-          selectedIndex={selectedIndex} 
           setSelectedIndex={setSelectedIndex} 
         />
       </BrowserRouter>

@@ -7,6 +7,7 @@ import ButtonArrow from './ButtonArrow';
 import background from '../../assets/background.jpg';
 import mobileBackground from '../../assets/mobileBackground.jpg';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   learnButton: {
@@ -26,7 +27,6 @@ const useStyles = makeStyles(theme => ({
     backgroundRepeat: "no-repeat",
     height: "100%",
     width: "100%",
-    height: "60em",
     [theme.breakpoints.down("md")]: {
       backgroundImage: `url(${mobileBackground})`,
       backgroundAttachment: "inherit"
@@ -41,6 +41,9 @@ const useStyles = makeStyles(theme => ({
     fontSize: "1.5rem",
     marginRight: "5em",
     marginLeft: "2em",
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light
+    },
     [theme.breakpoints.down("sm")]: {
       marginLeft: 0,
       marginRight: 0
@@ -48,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function CallToAction() {
+export default function CallToAction(props) {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"))
@@ -80,6 +83,9 @@ export default function CallToAction() {
               <Button 
                 variant="outlined" 
                 className={classes.learnButton} 
+                component={Link} 
+                to="/revolution"
+                onClick={() => props.setValue(2)}
               >
                 <span style={{ marginRight: 5 }}>Learn More</span>
                 <ButtonArrow width={10} height={10} fill={theme.palette.common.blue} />
@@ -89,7 +95,13 @@ export default function CallToAction() {
         </Grid>
       </Grid>
       <Grid item>
-        <Button variant="contained" className={classes.estimateButton}>
+        <Button 
+          variant="contained" 
+          className={classes.estimateButton}
+          component={Link} 
+          to="/estimate"
+          onClick={() => props.setValue(2)}
+        >
           Free Estimate
         </Button>
       </Grid>

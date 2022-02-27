@@ -63,6 +63,7 @@ export default function CallToAction(props) {
       justify={matchesSM ? "center" : "space-between"}
       alignItems="center"
       className={classes.background}
+      style={{paddingTop: "10em", paddingBottom: "10em"}}
     >
       <Grid 
         item 

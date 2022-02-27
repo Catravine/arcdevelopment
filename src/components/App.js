@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { ThemeProvider } from '@material-ui/styles';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import theme from './ui/Theme';
-import Header from '../components/ui/Header';
-import Footer from '../components/ui/Footer';
+import Header from './ui/Header';
+import Footer from './ui/Footer';
 import LandingPage from './LandingPage';
+import Services from './Services';
 
 function App() {
 
@@ -25,7 +26,9 @@ function App() {
           <Route exact path="/" element={
             <LandingPage setValue={setValue} setSelectedIndex={setSelectedIndex} />} 
           />
-          <Route exact path="/services" element={<div>Services</div>} />
+          <Route exact path="/services" element={
+            <Services setValue={setValue} setSelectedIndex={setSelectedIndex} />} 
+          />
           <Route exact path="/customsoftware" element={<div>Custom Software</div>} />
           <Route exact path="/mobileapps" element={<div>Mobile Apps</div>} />
           <Route exact path="/websites" element={<div>Websites</div>} />

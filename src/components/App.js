@@ -9,6 +9,7 @@ import Footer from './ui/Footer';
 import LandingPage from './LandingPage';
 import Services from './Services';
 import CustomSoftware from './CustomSoftware';
+import MobileApps from './MobileApps';
 
 function App() {
 
@@ -34,7 +35,9 @@ function App() {
           <Route exact path="/customsoftware" element={
             <CustomSoftware setValue={setValue} setSelectedIndex={setSelectedIndex} />} 
           />
-          <Route exact path="/mobileapps" element={<div>Mobile Apps</div>} />
+          <Route exact path="/mobileapps" element={
+            <MobileApps setValue={setValue} setSelectedIndex={setSelectedIndex} />} 
+          />s
           <Route exact path="/websites" element={<div>Websites</div>} />
           <Route exact path="/revolution" element={<div>The Revolution</div>} />
           <Route exact path="/about" element={<div>About Us</div>} />

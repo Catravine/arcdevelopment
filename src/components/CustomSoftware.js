@@ -45,9 +45,9 @@ const useStyles = makeStyles(theme => ({
 export default function CustomSoftware(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const matchesMD = useMediaQuery(theme.breakpoints.down("md"))
-  const matchesSM = useMediaQuery(theme.breakpoints.down("sm"))
-  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"))
+  const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
+  const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
 
   const documentOptions = {
     loop: true,

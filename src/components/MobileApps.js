@@ -68,7 +68,7 @@ export default function CustomSoftware(props) {
             <IconButton 
               style={{backgroundColor: "transparent"}}
               component={Link}
-              to="/csutomsofware"
+              to="/customsoftware"
               onClick={() => props.setSelectedIndex(1)}
             >
               <img src={backArrow} alt="Back to Custom Software Page" />

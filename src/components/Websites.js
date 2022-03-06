@@ -152,7 +152,6 @@ export default function Websites(props) {
               <Typography 
                 variant="h4" 
                 gutterBottom 
-                align="center" 
                 align={matchesSM ? "center" : undefined}
               >
                 E-Commerce
@@ -235,7 +234,6 @@ export default function Websites(props) {
               <Typography 
                 variant="h4" 
                 gutterBottom 
-                align="center" 
                 align={matchesSM ? "center" : undefined}
               >
                 Search Engine<br/>Optimization

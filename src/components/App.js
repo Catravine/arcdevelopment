@@ -12,6 +12,7 @@ import CustomSoftware from './CustomSoftware';
 import MobileApps from './MobileApps';
 import Websites from './Websites';
 import Revolution from './Revolution';
+import About from './About';
 
 function App() {
 
@@ -47,7 +48,9 @@ function App() {
           <Route exact path="/revolution" element={
             <Revolution setValue={setValue} setSelectedIndex={setSelectedIndex} />} 
           />
-          <Route exact path="/about" element={<div>About Us</div>} />
+          <Route exact path="/about" element={
+            <About setValue={setValue} setSelectedIndex={setSelectedIndex} />} 
+          />
           <Route exact path="/contact" element={<div>Contact Us</div>} />
           <Route exact path="/estimate" element={<div>Free Estimate</div>} />
         </Routes>

@@ -19,7 +19,8 @@ const useStyles = makeStyles(theme => ({
     backgroudPosition: "center",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
-    height: "60em"
+    height: "60em",
+    paddingBottom: "10em"
   },
   estimateButton: {
     ...theme.typography.estimate,
@@ -77,98 +78,103 @@ export default function Contact(props){
 
   return (
     <Grid container driection="row">
-      <Grid item container direction="column" justify="center" lg={3}>
+      <Grid item container direction="column" justify="center" alignItems="center" lg={4} xl={3}>
         <Grid item>
-          <Typography variant="h2" style={{ lineHeight: 1 }}>Contact Us</Typography>
-          <Typography 
-            variant="body2" 
-            style={{ color: theme.palette.common.blue }}
-          >
-            We're waiting
-          </Typography>
-        </Grid>
-        <Grid item container>
-          <Grid item>
-            <img src={phoneIcon} alt="phone" style={{ marginRight: "0.5em" }} />
+          <Grid container direction="column">
+            <Grid item>
+              <Typography variant="h2" style={{ lineHeight: 1 }}>Contact Us</Typography>
+              <Typography 
+                variant="body2" 
+                style={{ color: theme.palette.common.blue }}
+              >
+                We're waiting
+              </Typography>
+            </Grid>
+            <Grid item container style={{ marginTop: "2em" }}>
+              <Grid item>
+                <img src={phoneIcon} alt="phone" style={{ marginRight: "0.5em" }} />
+              </Grid>
+              <Grid item>
+                <Typography 
+                  variant="body2" 
+                  style={{ color: theme.palette.common.blue, fontSize: "1rem" }}
+                >
+                  (317) 224-6528
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid item container style={{ marginBottom: "2em" }}>
+              <Grid item>
+                <img 
+                  src={emailIcon} 
+                  alt="email" 
+                  style={{ marginRight: "0.5em", verticalAlign: "bottom" }} 
+                />
+              </Grid>
+              <Grid item>
+                <Typography 
+                  variant="body2" 
+                  style={{ color: theme.palette.common.blue, fontSize: "1rem" }}
+                >
+                  caroline@carolinecourtney.com
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid item container style={{ maxWidth: "20em" }}>
+              <Grid item>
+                <TextField 
+                  label="Name" 
+                  id="name" value={name} 
+                  onChange={(event) => setName(event.target.value)} 
+                />
+              </Grid>
+              <Grid item>
+                <TextField 
+                  label="Email" 
+                  id="email" value={email} 
+                  onChange={(event) => setEmail(event.target.value)} 
+                />
+              </Grid>
+              <Grid item>
+                <TextField 
+                  label="Phone" 
+                  id="phone" value={phone} 
+                  onChange={(event) => setPhone(event.target.value)} 
+                />
+              </Grid>
+            </Grid>
+            <Grid item style={{ maxWidth: "20em" }}>
+              <TextField 
+                value={message} 
+                className={classes.message}
+                id="message" 
+                InputProps={{ disableUnderline: true }}
+                multiline 
+                rows={10} 
+                onChange={(event) => setMessage(event.target.value)} 
+              />
+            </Grid>
+            <Grid item container justify="center" style={{ marginTop: "2em" }}>
+              <Button className={classes.sendButton} variant="contained">
+                Send Message
+                <img src={airplane} alt="paper airplaine" style={{ marginLeft: "1em" }} />
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Typography 
-              variant="body2" 
-              style={{ color: theme.palette.common.blue, fontSize: "1rem" }}
-            >
-              (317) 224-6528
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid item container>
-          <Grid item>
-            <img 
-              src={emailIcon} 
-              alt="email" 
-              style={{ marginRight: "0.5em", verticalAlign: "bottom" }} 
-            />
-          </Grid>
-          <Grid item>
-            <Typography 
-              variant="body2" 
-              style={{ color: theme.palette.common.blue, fontSize: "1rem" }}
-            >
-              caroline@carolinecourtney.com
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid item container style={{ maxWidth: "20em" }}>
-          <Grid item>
-            <TextField 
-              label="Name" 
-              id="name" value={name} 
-              onChange={(event) => setName(event.target.value)} 
-            />
-          </Grid>
-          <Grid item>
-            <TextField 
-              label="Email" 
-              id="email" value={email} 
-              onChange={(event) => setEmail(event.target.value)} 
-            />
-          </Grid>
-          <Grid item>
-            <TextField 
-              label="Phone" 
-              id="phone" value={phone} 
-              onChange={(event) => setPhone(event.target.value)} 
-            />
-          </Grid>
-        </Grid>
-        <Grid item style={{ maxWidth: "20em" }}>
-          <TextField 
-            value={message} 
-            className={classes.message}
-            id="message" 
-            InputProps={{ disableUnderline: true }}
-            multiline 
-            rows={10} 
-            onChange={(event) => setMessage(event.target.value)} 
-          />
-        </Grid>
-        <Grid item>
-          <Button className={classes.sendButton} variant="contained">
-            Send Message
-            <img src={airplane} alt="paper airplaine" style={{ marginLeft: "1em" }} />
-          </Button>
         </Grid>
       </Grid>
       <Grid 
         item 
         container 
         className={classes.background} 
-        lg={9}
+        lg={8}
+        xl={9}
         alignItems="center"
       >
         <Grid 
           item 
           style={{
-            marginLeft: matchesSM ? 0 : "5em", 
+            marginLeft: matchesSM ? 0 : "3em", 
             textAlign: matchesSM ? "center" : "inherit"
           }}
         >

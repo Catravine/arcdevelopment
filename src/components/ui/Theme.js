@@ -77,5 +77,23 @@ typography: {
       fontWeight: 300,
       color: arcGray
     }
+  },
+  overrides: {
+    MuiInputLabel: {
+      root: {
+        color: arcBlue,
+        fontSize: "1rem"
+      }
+    },
+    MuiInput: {
+      underline: {
+        "&:before": {
+          borderBottom: `2px solid ${arcBlue}`
+        },
+        "&:hover:not($disabled):not($focused):not($error):before": {
+          borderBottom: `2px solid ${arcBlue}`
+        }
+      }
+    }
   }
 });

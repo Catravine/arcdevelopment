@@ -105,6 +105,7 @@ export default function Contact(props){
 
   const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
   const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+  const sendMailUrl = 'https://us-central1-arcdevelopment-3117d.cloudfunctions.net/sendMail'
   const successColor = "#4bb543";
   const failureColor = "#ff3232";
 
@@ -136,7 +137,12 @@ export default function Contact(props){
 
   const onConfirm = () => {
     setLoading(true);
-    axios.get('https://us-central1-arcdevelopment-3117d.cloudfunctions.net/sendMail')
+    axios.get(sendMailUrl, {params: {
+      name: name,
+      email: email,
+      phone: phone,
+      message: message
+    }})
       .then(res => {
         setLoading(false);
         setOpen(false);

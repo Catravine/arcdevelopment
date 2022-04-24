@@ -13,6 +13,7 @@ import mobileBackground from '../assets/mobileBackground.jpg';
 import phoneIcon from '../assets/phone.svg';
 import emailIcon from '../assets/email.svg';
 import airplane from '../assets/send.svg';
+import { NoEncryption } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
   background: {
@@ -77,9 +78,43 @@ export default function Contact(props){
   const matchesMD = useMediaQuery(theme.breakpoints.down('md'))
 
   const [name, setName] = useState('');
+
   const [email, setEmail] = useState('');
+  const [emailHelper, setEmailHelper] = useState('');
+
   const [phone, setPhone] = useState('');
+  const [phoneHelper, setPhoneHelper] = useState('');
+
   const [message, setMessage] = useState('');
+
+  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+  const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+
+  const onChange = event => {
+    let valid;
+    switch (event.target.id) {
+      case 'email': 
+        setEmail(event.target.value);
+        valid = emailRegex.test(event.target.value);
+        if (valid) {
+          setEmailHelper("")
+        } else {
+          setEmailHelper("Invalid email")
+        }
+        break;
+      case 'phone':
+        setPhone(event.target.value)
+        valid = phoneRegex.test(event.target.value);
+        if (valid) {
+          setPhoneHelper("");
+        } else {
+          setPhoneHelper("Invalid phone");
+        }
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <Grid container driection="row">
@@ -122,7 +157,10 @@ export default function Contact(props){
                   variant="body2" 
                   style={{ color: theme.palette.common.blue, fontSize: "1rem" }}
                 >
-                  (317) 224-6528
+                  <a 
+                    style={{textDecoration: "none", color: "inherit"}} 
+                    href="tel:3172246528"
+                  >(317) 224-6528</a>
                 </Typography>
               </Grid>
             </Grid>
@@ -139,7 +177,12 @@ export default function Contact(props){
                   variant="body2" 
                   style={{ color: theme.palette.common.blue, fontSize: "1rem" }}
                 >
-                  caroline@carolinecourtney.com
+                  <a 
+                    style={{textDecoration: "none", color: "inherit"}} 
+                    href="mailto:caroline@carolinecourtney.com"
+                  >
+                    caroline@carolinecourtney.com
+                  </a>
                 </Typography>
               </Grid>
             </Grid>
@@ -155,17 +198,21 @@ export default function Contact(props){
               <Grid item style={{marginBottom: "0.5em"}}>
                 <TextField 
                   label="Email" 
+                  error={emailHelper.length != 0}
+                  helperText={emailHelper}
                   id="email" value={email} 
                   fullWidth
-                  onChange={(event) => setEmail(event.target.value)} 
+                  onChange={onChange} 
                 />
               </Grid>
               <Grid item style={{marginBottom: "0.5em"}}>
                 <TextField 
                   label="Phone" 
+                  error={phoneHelper.length != 0}
+                  helperText={phoneHelper}
                   id="phone" value={phone} 
                   fullWidth
-                  onChange={(event) => setPhone(event.target.value)} 
+                  onChange={onChange} 
                 />
               </Grid>
             </Grid>
@@ -182,7 +229,15 @@ export default function Contact(props){
               />
             </Grid>
             <Grid item container justify="center" style={{ marginTop: "2em" }}>
-              <Button className={classes.sendButton} variant="contained">
+              <Button 
+                disabled={
+                  name.length === 0 || 
+                  message.length === 0 || 
+                  phoneHelper.length !== 0 || 
+                  emailHelper.length !== 0}
+                className={classes.sendButton} 
+                variant="contained"
+              >
                 Send Message
                 <img src={airplane} alt="paper airplaine" style={{ marginLeft: "1em" }} />
               </Button>

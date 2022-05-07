@@ -14,6 +14,7 @@ import Websites from './Websites';
 import Revolution from './Revolution';
 import About from './About';
 import Contact from './Contact';
+import Estimate from './Estimate';
 
 function App() {
 
@@ -55,7 +56,9 @@ function App() {
           <Route exact path="/contact" element={
             <Contact setValue={setValue} setSelectedIndex={setSelectedIndex} />} 
           />
-          <Route exact path="/estimate" element={<div>Free Estimate</div>} />
+          <Route exact path="/estimate" element={
+            <Estimate setValue={setValue} setSelectedIndex={setSelectedIndex} />} 
+          />
         </Routes>
         <Footer 
           setValue={setValue} 

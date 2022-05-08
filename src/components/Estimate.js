@@ -59,6 +59,13 @@ const useStyles = makeStyles(theme => ({
     border: `2px solid ${theme.palette.common.blue}`,
     marginTop: "5em",
     borderRadius: 5
+  },
+  specialText: {
+    fontFamily: "Raleway",
+    fontWeight: 700,
+    fontSize: "1.5rem",
+    color: theme.palette.common.orange,
+    marginLeft: "0.25em"
   }
 }));
 
@@ -334,6 +341,7 @@ export default function Estimate() {
   const [phoneHelper, setPhoneHelper] = useState('');
 
   const [message, setMessage] = useState('');
+  const [total, setTotal] = useState(0);
 
   const defaultOptions = {
     loop: true,
@@ -433,6 +441,23 @@ export default function Estimate() {
     }
   }
 
+  const getTotal = () => {
+    let cost = 0;
+    const selections = questions
+      .map(question => question.options.filter(option => option.selected))
+      .filter(question => question.length > 0);
+    selections.map(options => options.map(option => cost += option.cost));
+
+    if (questions.length > 2) {
+      const userCost = questions
+        .filter(question => question.title === 'How many users do you expect?')
+        .map(question => question.options.filter(option => option.selected))[0][0].cost;
+      cost -= userCost
+      cost *= userCost
+    }
+    setTotal(cost);
+  }
+
   const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
   const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
 
@@ -527,7 +552,7 @@ export default function Estimate() {
           </Grid>
           <Grid item>
             <Button 
-              onClick={() => setDialogOpen(true)} 
+              onClick={() => {setDialogOpen(true); getTotal();}} 
               variant="contained" 
               className={classes.estimateButton}
             >
@@ -589,7 +614,10 @@ export default function Estimate() {
               </Grid>
               <Grid item>
                 <Typography variant="body2" paragraph>
-                  We can create this digital solution for an estimated
+                  We can create this digital solution for an estimated 
+                  <span className={classes.specialText}>
+                    ${total.toFixed(2)}
+                  </span>.
                 </Typography>
                 <Typography variant="body2" paragraph>
                   Fill out your name, phone number, and email, place your 

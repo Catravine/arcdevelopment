@@ -6,6 +6,10 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import TextField from '@material-ui/core/TextField';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import check from '../assets/check.svg';
 import send from '../assets/send.svg';
@@ -50,6 +54,11 @@ const useStyles = makeStyles(theme => ({
     "&:hover": {
       backgroundColor: theme.palette.secondary.light
     }
+  },
+  message: {
+    border: `2px solid ${theme.palette.common.blue}`,
+    marginTop: "5em",
+    borderRadius: 5
   }
 }));
 
@@ -312,8 +321,19 @@ const websiteQuestions = [
 export default function Estimate() {
   const classes = useStyles()
   const theme = useTheme()
+  const matchesXS = useMediaQuery(theme.breakpoints.down('xs'))
 
-  const [questions, setQuestions] = useState(softwareQuestions)
+  const [questions, setQuestions] = useState(defaultQuestions)
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [name, setName] = useState('');
+
+  const [email, setEmail] = useState('');
+  const [emailHelper, setEmailHelper] = useState('');
+
+  const [phone, setPhone] = useState('');
+  const [phoneHelper, setPhoneHelper] = useState('');
+
+  const [message, setMessage] = useState('');
 
   const defaultOptions = {
     loop: true,
@@ -354,6 +374,68 @@ export default function Estimate() {
     return currentlyActive[0].id === questions[questions.length - 1].id;
   }
 
+  const handleSelect = (id) => {
+    const newQuestions = cloneDeep(questions);
+    const currentlyActive = newQuestions.filter(question => question.active);
+    const activeIndex = currentlyActive[0].id - 1;
+    const newSelected = newQuestions[activeIndex].options[id - 1];
+    const previousSelected = currentlyActive[0].options.filter(option => option.selected)
+    switch(currentlyActive[0].subtitle) {
+      case 'Select one.': 
+        if (previousSelected[0]) {
+          previousSelected[0].selected = !previousSelected[0].selected;
+        }
+        newSelected.selected = !newSelected.selected;
+        break;
+      default:
+        newSelected.selected = !newSelected.selected;
+        break;
+    }
+    switch(newSelected.title) {
+      case 'Custom Software Development':
+        setQuestions(softwareQuestions);
+        break;
+      case 'iOS / Android App Development':
+        setQuestions(softwareQuestions);
+        break;
+      case 'Website Development':
+        setQuestions(websiteQuestions);
+        break;
+      default:
+        setQuestions(newQuestions);
+        break;
+    }
+  }
+  
+  const onChange = event => {
+    let valid;
+    switch (event.target.id) {
+      case 'email': 
+        setEmail(event.target.value);
+        valid = emailRegex.test(event.target.value);
+        if (valid) {
+          setEmailHelper("")
+        } else {
+          setEmailHelper("Invalid email")
+        }
+        break;
+      case 'phone':
+        setPhone(event.target.value)
+        valid = phoneRegex.test(event.target.value);
+        if (valid) {
+          setPhoneHelper("");
+        } else {
+          setPhoneHelper("Invalid phone");
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+  const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+
   return (
     <Grid container direction="row">
       <Grid item container direction="column" lg>
@@ -381,7 +463,8 @@ export default function Estimate() {
                 style={{
                   fontWeight: 500, 
                   marginTop: "5em", 
-                  fontSize: "2.25rem"
+                  fontSize: "2.25rem",
+                  lineHeight: 1.25
                 }} 
               >
                 {question.title}
@@ -397,8 +480,21 @@ export default function Estimate() {
             </Grid>
             <Grid item container>
               {question.options.map(option => (
-                <Grid item container direction="column" md>
-                  <Grid item style={{maxWdith: "12em"}}>
+                <Grid 
+                  item 
+                  container 
+                  direction="column" 
+                  md 
+                  component={Button} 
+                  onClick={() => handleSelect(option.id)}
+                  style={{
+                    display: "grid", 
+                    textTransform: "none", 
+                    borderRadius: 0,
+                    backgroundColor: option.selected ? theme.palette.common.orange : null 
+                  }}
+                >
+                  <Grid item style={{maxWdith: "14em"}}>
                     <Typography variant="h6" align="center" style={{marginBottom: "1em"}}>
                       {option.title}
                     </Typography>
@@ -430,12 +526,81 @@ export default function Estimate() {
             </IconButton>
           </Grid>
           <Grid item>
-            <Button variant="contained" className={classes.estimateButton}>
+            <Button 
+              onClick={() => setDialogOpen(true)} 
+              variant="contained" 
+              className={classes.estimateButton}
+            >
               Get Estimate
             </Button>
           </Grid>
         </Grid>
       </Grid>
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+        <Grid container justify="center">
+          <Grid item>
+            <Typography variant="h2" align="center">
+              Estimate
+            </Typography>
+          </Grid>
+        </Grid>
+        <DialogContent>
+          <Grid container>
+            <Grid item container direction="column">
+              <Grid item style={{marginBottom: "0.5em"}}>
+                <TextField 
+                  label="Name" 
+                  id="name" value={name} 
+                  fullWidth
+                  onChange={(event) => setName(event.target.value)} 
+                />
+              </Grid>
+              <Grid item style={{marginBottom: "0.5em"}}>
+                <TextField 
+                  label="Email" 
+                  error={emailHelper.length != 0}
+                  helperText={emailHelper}
+                  id="email" value={email} 
+                  fullWidth
+                  onChange={onChange} 
+                />
+              </Grid>
+              <Grid item style={{marginBottom: "0.5em"}}>
+                <TextField 
+                  label="Phone" 
+                  error={phoneHelper.length != 0}
+                  helperText={phoneHelper}
+                  id="phone" value={phone} 
+                  fullWidth
+                  onChange={onChange} 
+                />
+              </Grid>
+              <Grid item style={{ maxWidth: matchesXS ? "100%" : "20em" }}>
+                <TextField 
+                  value={message} 
+                  className={classes.message}
+                  id="message" 
+                  InputProps={{ disableUnderline: true }}
+                  multiline 
+                  fullWidth
+                  rows={10} 
+                  onChange={(event) => setMessage(event.target.value)} 
+                />
+              </Grid>
+              <Grid item>
+                <Typography variant="body2" paragraph>
+                  We can create this digital solution for an estimated
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  Fill out your name, phone number, and email, place your 
+                  request, and we'll get back to you with details moving 
+                  forward and a final price.
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </DialogContent>
+      </Dialog>
     </Grid>
   )
 }

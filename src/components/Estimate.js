@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { cloneDeep } from 'lodash';
 import Lottie from 'react-lottie';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButtton from '@material-ui/core/IconButton';
+import IconButton from '@material-ui/core/IconButton';
 
 import check from '../assets/check.svg';
 import send from '../assets/send.svg';
@@ -313,6 +313,8 @@ export default function Estimate() {
   const classes = useStyles()
   const theme = useTheme()
 
+  const [questions, setQuestions] = useState(softwareQuestions)
+
   const defaultOptions = {
     loop: true,
     autoplay: true, 
@@ -321,6 +323,36 @@ export default function Estimate() {
       preserveAspectRatio: 'xMidYMid slice'
     }
   };
+
+  const nextQuestion = () => {
+    const newQuestions = cloneDeep(questions);
+    const currentlyActive = newQuestions.filter(question => question.active);
+    const activeIndex = currentlyActive[0].id - 1;
+    const nextIndex = activeIndex + 1;
+    newQuestions[activeIndex] = {...currentlyActive[0], active: false}
+    newQuestions[nextIndex] = {...newQuestions[nextIndex], active: true}
+    setQuestions(newQuestions)
+  }
+
+  const previousQuestion = () => {
+    const newQuestions = cloneDeep(questions);
+    const currentlyActive = newQuestions.filter(question => question.active);
+    const activeIndex = currentlyActive[0].id - 1;
+    const nextIndex = activeIndex - 1;
+    newQuestions[activeIndex] = {...currentlyActive[0], active: false}
+    newQuestions[nextIndex] = {...newQuestions[nextIndex], active: true}
+    setQuestions(newQuestions)
+  }
+
+  const navigationPreviousDisabled = () => {
+    const currentlyActive = questions.filter(question => question.active);
+    return currentlyActive[0].id === 1
+  }
+
+  const navigationNextDisabled = () => {
+    const currentlyActive = questions.filter(question => question.active);
+    return currentlyActive[0].id === questions[questions.length - 1].id;
+  }
 
   return (
     <Grid container direction="row">
@@ -340,7 +372,7 @@ export default function Estimate() {
         lg 
         style={{marginRight: "2em", marginBottom: "25em"}}
       >
-        {defaultQuestions.filter(question => question.active).map((question, index) => (
+        {questions.filter(question => question.active).map((question, index) => (
           <React.Fragment key={index}>
             <Grid item>
               <Typography 
@@ -382,12 +414,20 @@ export default function Estimate() {
             </Grid>
           </React.Fragment>
         ))}
-        <Grid item container justify="space-between" style={{width: "15em", marginTop: "3em"}}>
+        <Grid item container justify="space-between" style={{width: "18em", marginTop: "3em"}}>
           <Grid item>
-            <img src={backArrow} alt="Previous question" />
+            <IconButton disabled={navigationPreviousDisabled()} onClick={previousQuestion}>
+              <img src={
+                navigationPreviousDisabled() ? backArrowDisabled : backArrow
+              } alt="Previous question" />
+            </IconButton>
           </Grid>
           <Grid item>
-            <img src={forwardArrow} alt="Next question" />
+            <IconButton disabled={navigationNextDisabled()} onClick={nextQuestion}>
+              <img src={
+                navigationNextDisabled() ? forwardArrowDisabled : forwardArrow
+              } alt="Next question" />
+            </IconButton>
           </Grid>
           <Grid item>
             <Button variant="contained" className={classes.estimateButton}>

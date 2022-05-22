@@ -284,6 +284,7 @@ export default function Contact(props){
                 id="message" 
                 InputProps={{ disableUnderline: true }}
                 multiline 
+                placeholder="Tell us more about your project" 
                 fullWidth
                 rows={10} 
                 onChange={(event) => setMessage(event.target.value)} 
